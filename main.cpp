@@ -15,6 +15,8 @@ const std::string g_criteria = "abcdefghijklmnopqrstuvwxyz0123456789_-";
 
 int main(int argc, char **argv)
 {
+    std::cout << 46 / 60 << std::endl; 
+
     std::ifstream inputFile(argv[1]);
     if (!inputFile.is_open())
     {
@@ -91,8 +93,8 @@ bool strToUInt32(const std::string& s, uint32_t& n)
 
 bool strToTime(const std::string& s, Core::Time& t)
 {
-    uint32_t hour = 0;
-    uint32_t minutes = 0;
+    int32_t hour = 0;
+    int32_t minutes = 0;
 
     if (s.size() != 5 && s[2] == ':')
     {

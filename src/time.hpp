@@ -9,16 +9,22 @@ namespace Core
     {
     public:
         Time() = default;
-        Time(uint32_t _hour, uint32_t _minutes);
+        Time(int32_t _hour, int32_t _minutes);
+
+        inline int32_t getHour() const { return hour; }
+        inline int32_t getMinute() const { return minutes; } 
 
         Time& operator=(const Time& t);
         bool operator<(const Time& t);
         bool operator>(const Time& t);
         bool operator==(const Time& t);
+        Time& operator+=(const Time& t);
+        Time operator+(const Time& t);
+        Time operator-(const Time& t);
 
     private:
-        uint32_t hour;
-        uint32_t minutes;
+        int32_t hour;
+        int32_t minutes;
 
         friend std::ostream& operator<<(std::ostream& output, const Time& t);
     };

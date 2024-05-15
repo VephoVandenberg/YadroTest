@@ -93,6 +93,8 @@ void Club::processEvents()
             if (m_tables[e.tableID].clientName.empty())
             {
                 m_tables[e.tableID].clientName = e.name;
+                m_tables[e.tableID].currTime = e.time;
+                m_tables[e.tableID].coins += m_coinsPerHour;
                 m_clientsWaiting.erase(e.name);
             }
 
@@ -164,22 +166,52 @@ void Club::processEvents()
         }break;
         }
 
-        
+        for (uint32_t iTable = 1; iTable <= m_nTables; iTable++)
+        {
+            if (!m_tables[iTable].clientName.empty())
+            {
+                if ((e.time - m_tables[iTable].currTime).getHour() >= 1)
+                {
+                    m_tables[iTable].coins += m_coinsPerHour;
+                    m_tables[iTable].currTime = e.time;
+                }
+            }
+        }
     }
 
     for (uint32_t iTable = 1; iTable <= m_nTables; iTable++)
     {
-        if (!m_tables[iTable].clientName.empty())
+        auto& table = m_tables[iTable];
+        if (!table.clientName.empty())
         {
             m_clientsWaiting.insert(m_tables[iTable].clientName);
+            if (table.currTime < m_end)
+            {
+                while (table.currTime < m_end)
+                {
+                    table.totalTime += Time(1, 0);
+                    table.currTime += Time(1, 0);
+                    table.coins += m_coinsPerHour;
+                }
+
+                if (table.currTime > m_end)
+                {
+                    table.currTime = table.currTime - (table.currTime - m_end); 
+                }
+            }
         }
     }
+
+    std::cout << m_end << std::endl;
 
     for (auto& client : m_clientsWaiting)
     {
         std::cout << m_end << ' ' << 4 << ' ' << client << std::endl;
     }
 
-    std::cout << m_end << std::endl;
+    for (uint32_t iTable = 1; iTable <= m_tables.size(); iTable++)
+    {
+        std::cout << iTable << " " << m_tables[iTable].coins << " " << m_tables[iTable].totalTime << std::endl;
+    }
 }
 

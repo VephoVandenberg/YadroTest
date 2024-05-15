@@ -25,6 +25,7 @@ namespace Core
         {
             uint32_t coins = 0;
             Time totalTime = Time(0, 0);
+            Time currTime = Time(0, 0);
             std::string clientName = ""; // if his field is empty, table is free;
         };
 
