@@ -15,8 +15,6 @@ const std::string g_criteria = "abcdefghijklmnopqrstuvwxyz0123456789_-";
 
 int main(int argc, char **argv)
 {
-    std::cout << 46 / 60 << std::endl; 
-
     std::ifstream inputFile(argv[1]);
     if (!inputFile.is_open())
     {

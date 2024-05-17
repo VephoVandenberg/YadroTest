@@ -41,6 +41,11 @@ void Club::pushEvent(Event& e)
     m_events.push_back(e);
 }
 
+uint32_t Club::getMoney(Time& t) const
+{
+    return m_coinsPerHour * (t.getHour() + ((t.getMinutes() > 0) ? 1 : 0));
+}
+
 void Club::processEvents()
 {
     std::cout << m_start << std::endl;
@@ -93,8 +98,7 @@ void Club::processEvents()
             if (m_tables[e.tableID].clientName.empty())
             {
                 m_tables[e.tableID].clientName = e.name;
-                m_tables[e.tableID].currTime = e.time;
-                m_tables[e.tableID].coins += m_coinsPerHour;
+                m_tables[e.tableID].sessionStart = e.time;
                 m_clientsWaiting.erase(e.name);
             }
 
@@ -136,18 +140,23 @@ void Club::processEvents()
             bool hasClient = false;
             for (uint32_t iTable = 1; iTable <= m_nTables; iTable++)
             {
-                if (m_tables[iTable].clientName == e.name)
+                auto& table = m_tables[iTable];
+                if (table.clientName == e.name)
                 {
-                    m_tables[iTable].clientName = "";
+                    auto difference = e.time - table.sessionStart;
+
+                    table.clientName = "";
+                    table.totalTime += difference;
+                    table.coins += getMoney(difference);
                     hasClient = true;
 
                     if (!m_clientsWaiting.empty())
                     {
-                        m_tables[iTable].clientName = *m_clientsWaiting.begin();
+                        table.clientName = *m_clientsWaiting.begin();
+                        table.sessionStart = e.time;
                         m_clientsWaiting.erase(*m_clientsWaiting.begin());
                         std::cout << e.time << ' ' << 12 << ' ' << e.name << ' ' << iTable << std::endl; 
                     }
-
                     break;
                 }
             }
@@ -165,18 +174,6 @@ void Club::processEvents()
             
         }break;
         }
-
-        for (uint32_t iTable = 1; iTable <= m_nTables; iTable++)
-        {
-            if (!m_tables[iTable].clientName.empty())
-            {
-                if ((e.time - m_tables[iTable].currTime).getHour() >= 1)
-                {
-                    m_tables[iTable].coins += m_coinsPerHour;
-                    m_tables[iTable].currTime = e.time;
-                }
-            }
-        }
     }
 
     for (uint32_t iTable = 1; iTable <= m_nTables; iTable++)
@@ -184,21 +181,9 @@ void Club::processEvents()
         auto& table = m_tables[iTable];
         if (!table.clientName.empty())
         {
-            m_clientsWaiting.insert(m_tables[iTable].clientName);
-            if (table.currTime < m_end)
-            {
-                while (table.currTime < m_end)
-                {
-                    table.totalTime += Time(1, 0);
-                    table.currTime += Time(1, 0);
-                    table.coins += m_coinsPerHour;
-                }
-
-                if (table.currTime > m_end)
-                {
-                    table.currTime = table.currTime - (table.currTime - m_end); 
-                }
-            }
+            table.totalTime += m_end - table.sessionStart;
+            table.coins += getMoney(table.totalTime);
+            std::cout << m_end << ' ' << 11 << ' ' << table.clientName << std::endl;
         }
     }
 

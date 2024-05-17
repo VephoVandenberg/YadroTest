@@ -68,7 +68,7 @@ Time Time::operator+(const Time& t)
 Time Time::operator-(const Time& t) 
 {
     int32_t hour_ = hour - t.hour;
-    hour -= (minutes - t.minutes) < 0 ? 1 : 0;
+    hour_ -= (minutes - t.minutes) < 0 ? 1 : 0;
     int32_t minutes_ = (minutes - t.minutes) < 0 ? (60 - std::abs(minutes - t.minutes)) : minutes - t.minutes;
     return Time(hour_, minutes_);
 }
