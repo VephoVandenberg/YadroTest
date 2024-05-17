@@ -164,6 +164,27 @@ bool parseEventRecord(const std::string& s, Core::Club& club)
         return false;
     }
 
+    if (id >= 1 && id <= 4)
+    {
+        uint32_t tableID = 0;
+        if (id == 2 && !strToUInt32(tokens[3], tableID))
+        {
+            return false;
+        }
+
+        Core::Event e;
+        e.id = id;
+        e.name = tokens[2];
+        e.time = t;
+        e.tableID = tableID;
+
+        club.pushEvent(e);
+    }
+    else
+    {
+        return false;
+    }
+    /*
     switch(id)
     {
     case 1: 
@@ -198,7 +219,7 @@ bool parseEventRecord(const std::string& s, Core::Club& club)
         return false;
     }break;
     }
-
+    */
     return true;
 }
 

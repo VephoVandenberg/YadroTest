@@ -1,0 +1,15 @@
+5
+08:00 23:00
+100
+06:39 1 myboy
+07:48 1 client1
+08:00 1 anotherone
+08:01 1 another
+08:02 1 azamat
+08:03 1 olgerd
+08:04 1 chinhei
+08:05 2 azamat 1
+08:06 2 another 2
+08:07 2 anotherone 3
+08:08 2 olgerd 4
+08:09 2 chinhei 5

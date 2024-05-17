@@ -20,6 +20,12 @@ namespace Core
         void pushEvent(Event& e);
         void processEvents();
 
+        Club() = delete;
+        Club(const Club&) = delete;
+        Club(Club&&) = delete;
+        Club& operator=(const Club&) = delete;
+        Club& operator=(Club&&) = delete;
+
     private:
         uint32_t getMoney(Time& t) const;
 
