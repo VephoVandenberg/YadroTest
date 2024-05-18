@@ -29,8 +29,6 @@ namespace Core
     private:
         uint32_t getMoney(Time& t) const;
 
-        void logError(uint32_t id, const Time& t) const;
-
         struct Table 
         {
             uint32_t coins = 0;

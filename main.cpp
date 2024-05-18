@@ -123,7 +123,7 @@ bool strToTime(const std::string& s, Core::Time& t)
         }
     }
 
-    if (hour > 23 || minutes > 59)
+    if (hour > 24 && minutes > 0 || minutes > 59)
     {
         return false;
     }
