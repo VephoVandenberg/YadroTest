@@ -184,42 +184,7 @@ bool parseEventRecord(const std::string& s, Core::Club& club)
     {
         return false;
     }
-    /*
-    switch(id)
-    {
-    case 1: 
-    case 3:
-    case 4: {
-        Core::Event e;
-        e.id = id;
-        e.name = tokens[2];
-        e.time = t;
-        e.tableID = 0;
 
-        club.pushEvent(e);
-    }break;
-
-    case 2: {
-        uint32_t tableId = 0;
-        if (!strToUInt32(tokens[3], tableId))
-        {
-            return false;
-        }
-
-        Core::Event e;
-        e.id = id;
-        e.name = tokens[2];
-        e.time = t;
-        e.tableID = tableId;
-
-        club.pushEvent(e);
-    }break;
-    
-    default: {
-        return false;
-    }break;
-    }
-    */
     return true;
 }
 

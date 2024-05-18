@@ -196,7 +196,6 @@ void Club::processEvents()
 
     for (uint32_t iTable = 1; iTable <= m_tables.size(); iTable++)
     {
-        std::cout << iTable << " " << m_tables[iTable].coins << " " << m_tables[iTable].totalTime << std::endl;
+        std::cout << iTable << ' ' << m_tables[iTable].coins << ' ' << m_tables[iTable].totalTime << std::endl; 
     }
 }
-
